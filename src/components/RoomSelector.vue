@@ -1,5 +1,5 @@
 <template>
-    <form>
+    <form @submit.prevent="handleSubmit">
         <label>Introduce a Chat-ID</label>
         <Input v-model="roomId" placeholder="Chat-ID" />
         <Button>Join!</Button>
@@ -7,11 +7,33 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
+import { getAccessToken } from '../services/auth';
+import { useUserStore } from '../store/user.store'
+import { useRoomStore } from '../store/room.store'
+import { createOrJoinRoom } from '../services/chat';
+import { useRouter } from 'vue-router';
 import Input from './Input.vue';
 import Button from './Button.vue';
 
 const roomId = ref<string>('');
+const userStore = useUserStore()
+const roomStore = useRoomStore()
+const user = computed(() => userStore.user!)
+const router = useRouter()
+
+const handleSubmit = async () => {
+    // no user or no token
+    if (!user.value || user.value.token == null) return
+
+    const accessToken = await getAccessToken(user.value.token)
+    const roomToJoin = await createOrJoinRoom(roomId.value, accessToken)
+
+    if (roomToJoin) {
+        roomStore.room = roomToJoin
+        router.push(`/chat/${roomId.value}`)
+    }
+};
 </script>
 
 <style scoped>
