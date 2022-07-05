@@ -1,12 +1,11 @@
 <script setup lang="ts">
 import TheNavbar from './components/TheNavbar.vue'
-import Chat from './views/Chat.vue'
 </script>
 
 <template>
   <TheNavbar />
   <main>
-    <Chat />
+    <router-view />
   </main>
 </template>
 
