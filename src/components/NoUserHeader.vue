@@ -26,7 +26,7 @@ const handleFormSubmit = () => {
             email: 'a@a.com',
             name: anonimousName.value,
             username: anonimousName.value,
-            token: `anonimous-${anonimousName.value}`,
+            token: `anonymous_${anonimousName.value}`,
             avatar: `https://i.pravatar.cc/150?u=${anonimousName.value}`,
         }
     })
