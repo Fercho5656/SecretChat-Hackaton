@@ -3,10 +3,10 @@
         <AppLogo />
         <ul>
             <li>
-                <a href="">Home</a>
+                <router-link to="/">Home</router-link>
             </li>
             <li>
-                <a href="">Chat</a>
+                <router-link to="/chat">Chat</router-link>
             </li>
         </ul>
     </nav>
