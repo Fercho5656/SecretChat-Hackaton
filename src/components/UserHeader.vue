@@ -32,6 +32,7 @@ header {
     padding: 1rem;
     background-color: #F3F4F6;
     border-bottom: 1px solid #ddd;
+    box-shadow: 0px 2px 4px rgba(148, 125, 243, 0.2);
 }
 
 strong {
