@@ -1,4 +1,4 @@
-import { Client, Conversation } from '@twilio/conversations'
+import { Client } from '@twilio/conversations'
 
 export const createOrJoinRoom = async (room: string, accessToken: string) => {
   const client = new Client(accessToken)
@@ -9,11 +9,13 @@ export const createOrJoinRoom = async (room: string, accessToken: string) => {
         let conversation
         try {
           conversation = await client.createConversation({ uniqueName: room })
+          conversation.add(client.user.identity)
         } catch (e) {
           // If the room already exists, join it
           console.error(e)
           try {
             conversation = await client.getConversationByUniqueName(room)
+            //conversation.add(client.user.identity)
           } catch (e) {
             console.error(e)
           }
