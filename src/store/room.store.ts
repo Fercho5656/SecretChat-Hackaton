@@ -1,13 +1,9 @@
 import { defineStore } from 'pinia'
 
-interface IRoomStore {
-  room: any | null
-}
-
 export const useRoomStore = defineStore('room', {
-  state: (): IRoomStore => {
+  state: (): any => {
     return {
-      room: null
+      room: null,
     }
   }
 })
