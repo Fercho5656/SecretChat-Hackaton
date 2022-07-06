@@ -40,6 +40,7 @@ h1 {
     font-size: min(12vw, 36px);
     color: var(--white-text);
     max-width: 320px;
+    user-select: none;
 }
 
 svg {
