@@ -1,8 +1,8 @@
 import { defineStore } from 'pinia'
-import User from '../interfaces/User'
+import IUser from '../interfaces/IUser'
 
 interface IUserStore {
-  user: User | null
+  user: IUser | null
 }
 
 export const useUserStore = defineStore('user', {
