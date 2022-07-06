@@ -9,7 +9,7 @@ export const createOrJoinRoom = async (room: string, accessToken: string) => {
         let conversation
         try {
           conversation = await client.createConversation({ uniqueName: room })
-          conversation.add(client.user.identity)
+          conversation.join()
         } catch (e) {
           // If the room already exists, join it
           console.error(e)
