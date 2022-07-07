@@ -1,20 +1,22 @@
 <template>
-  <div ref="scroll">
+  <div class="messages">
     <template v-for="message in messages" :key="message.body">
-      <p>{{ message.body }}</p>
-      <small>{{ message.author }}</small>
+      <Message :message="message" :localMessage="user.name === message.author" />
     </template>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, onUpdated, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { useRoomStore } from '../store/room.store';
+import { useUserStore } from '../store/user.store';
 import Message from '../components/Message.vue';
 import IMessage from '../interfaces/IMessage'
 
 const roomStore = useRoomStore()
+const userStore = useUserStore()
 const room = computed(() => roomStore.room!)
+const user = computed(() => userStore.user!)
 const messages = ref<Array<IMessage>>([])
 
 onMounted(() => {
@@ -32,4 +34,11 @@ onMounted(() => {
 </script>
 
 <style scoped>
+.messages {
+  display: flex;
+  flex-flow: column nowrap;
+  margin-bottom: 0.5rem;
+  align-items: stretch;
+  padding: 1rem;
+}
 </style>
