@@ -1,5 +1,5 @@
 <template>
-  <div class="message-wrapper" :class="localMessage ? 'message-in' : 'message-out'">
+  <div class="message-wrapper" :class="localMessage ? 'message-out' : 'message-in'">
     <div class="message-content">
       <span>
         <svg viewBox="0 0 8 13" width="8" height="13">
@@ -7,9 +7,9 @@
           <path d="M5.188 0H0v11.193l6.467-8.625C7.526 1.156 6.958 0 5.188 0z" />
         </svg>
       </span>
-      <small>{{ message.author }}</small>
+      <strong>{{ message.author }}</strong>
       <p>{{ message.body }}</p>
-      <small class="date">{{ new Date().toDateString() }}</small>
+      <small class="date">{{ message.dateCreated.toLocaleTimeString() }}</small>
     </div>
   </div>
 </template>
@@ -53,6 +53,7 @@ const props = defineProps<Props>()
 }
 
 .date {
+  font-weight: 400;
   display: block;
   text-align: right;
 }
@@ -76,5 +77,11 @@ const props = defineProps<Props>()
 
 .message-in path {
   fill: var(--secondary-color);
+}
+
+strong {
+  text-transform: capitalize;
+  font-weight: 500;
+  letter-spacing: 0.1rem;
 }
 </style>
