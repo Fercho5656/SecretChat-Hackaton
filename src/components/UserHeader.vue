@@ -12,10 +12,12 @@
 <script setup lang="ts">
 import LogoutIcon from './Icons/LogoutIcon.vue'
 import { useUserStore } from '../store/user.store'
+import { signOut } from '../services/supabase';
 import Button from './Button.vue';
 const user = useUserStore()
 
-const logout = () => {
+const logout = async () => {
+    await signOut()
     user.$state = {
         user: null,
     }

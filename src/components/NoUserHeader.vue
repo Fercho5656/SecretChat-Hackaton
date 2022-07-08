@@ -1,36 +1,43 @@
 <template>
     <header>
-        <Button v-if="!showAnonymousInput" class="joinAnonymous" @click="showAnonymousInput = true">
-            Join as anonymous
+        <Button class="join" @click="signIn('google')">
+            Sign in with Google
         </Button>
-        <form @submit.prevent="handleFormSubmit" v-else>
-            <Input v-model="anonimousName" placeholder="Enter your anonymous name" />
-            <Button>Join</Button>
-        </form>
     </header>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { onBeforeMount, onMounted, ref, watchEffect } from 'vue';
 import { useUserStore } from '../store/user.store';
+import { getUser } from '../services/session';
+import supabase, { getSession, signIn, getAccessToken } from '../services/supabase';
 import Button from './Button.vue'
-import Input from './Input.vue'
 
-const anonimousName = ref<string>('');
-const showAnonymousInput = ref<boolean>(false)
-const user = useUserStore()
+const userStore = useUserStore()
 
-const handleFormSubmit = () => {
-    user.$patch({
-        user: {
-            email: 'a@a.com',
-            name: anonimousName.value,
-            username: anonimousName.value,
-            token: `anonymous_${anonimousName.value}`,
-            avatar: `https://i.pravatar.cc/150?u=${anonimousName.value}`,
+const session = supabase.auth.session()
+supabase.auth.onAuthStateChange(async (event, session) => {
+    if (event === 'SIGNED_IN' && session != null) {
+        const user = await getUser(session)
+        userStore.$patch({
+            user: user
+        })
+    }
+
+    if (event === 'SIGNED_OUT') {
+        userStore.$state = {
+            user: null,
         }
-    })
-}
+    }
+})
+
+onMounted(async () => {
+    if (session != null) {
+        const user = await getUser(session)
+        userStore.user = user
+    }
+})
+
 </script>
 
 <style scoped>
@@ -43,7 +50,8 @@ header {
 button {
     width: 100%;
 }
-.joinAnonymous {
+
+.join {
     max-width: 200px;
 }
 
