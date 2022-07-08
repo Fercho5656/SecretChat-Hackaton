@@ -1,6 +1,6 @@
 <template>
   <div class="messages">
-    <template v-for="message in messages" :key="message.body">
+    <template v-for="message in messages" :key="message.sid">
       <Message :message="message" :localMessage="user.name === message.author" />
     </template>
   </div>
