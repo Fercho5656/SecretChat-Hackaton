@@ -1,6 +1,8 @@
 interface IMessage {
-  body: string
+  sid: string
   author: string
+  body: string
+  dateCreated: Date
 }
 
 export default IMessage
