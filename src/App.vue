@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import TheNavbar from './components/TheNavbar.vue'
+import TheHeader from './components/TheHeader.vue'
 </script>
 
 <template>
-  <TheNavbar />
+  <TheHeader />
   <main>
     <router-view />
   </main>

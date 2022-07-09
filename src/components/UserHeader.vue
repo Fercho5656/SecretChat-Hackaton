@@ -1,46 +1,38 @@
 <template>
-    <header>
-        <strong>Hello, {{ user.user?.username }}!</strong>
-        <img :src="user.user?.avatar" :alt="user.user?.name">
-        <Button @click="logout">
-            <LogoutIcon />
-            Logout
-        </Button>
-    </header>
+    <div>
+        <picture @click="showDropdown = true" ref="pictureRef">
+            <source srcset="../assets/logo.png">
+            <img :src="user.user?.avatar" :alt="user.user?.name">
+            <DropdownProfile v-if="showDropdown" :user="user.user!" />
+        </picture>
+    </div>
 </template>
 
 <script setup lang="ts">
-import LogoutIcon from './Icons/LogoutIcon.vue'
+import { ref } from 'vue';
 import { useUserStore } from '../store/user.store'
-import { signOut } from '../services/supabase';
-import Button from './Button.vue';
-const user = useUserStore()
+import { useClickOutside } from '../composables/useClickOutside'
+import DropdownProfile from './DropdownProfile.vue';
 
-const logout = async () => {
-    await signOut()
-    user.$state = {
-        user: null,
-    }
-}
+const user = useUserStore()
+const pictureRef = ref<HTMLElement>()
+const showDropdown = ref<boolean>(false)
+
+useClickOutside(pictureRef, () => showDropdown.value = false)
+
 </script>
 
 <style scoped>
-header {
+picture {
     display: flex;
-    margin-bottom: 1rem;
-    width: 100vw;
+    flex-flow: column nowrap;
     align-items: center;
-    justify-content: space-evenly;
-    padding: 1rem;
-    background-color: #F3F4F6;
-    border-bottom: 1px solid #ddd;
-    box-shadow: 0px 2px 4px rgba(148, 125, 243, 0.2);
+    justify-content: flex-start;
 }
 
-strong {
-    font-size: 1.5rem;
-    font-weight: 500;
-    color: var(--black-text);
+picture:hover img {
+    background-color: var(--primary-color-light);
+    box-shadow: 0px 0px 30px 2px rgba(255, 255, 255, 0.2);
 }
 
 img {
@@ -48,6 +40,7 @@ img {
     height: 3.5rem;
     border-radius: 50%;
     margin-right: 0.5rem;
+    transition: background-color 0.5s, box-shadow 0.5s;
 }
 
 button {
