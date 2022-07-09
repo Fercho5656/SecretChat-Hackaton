@@ -13,6 +13,6 @@
 
 <style scoped>
     path {
-        fill: #fff;
+        fill: var(--primary-color);
     }
 </style>
