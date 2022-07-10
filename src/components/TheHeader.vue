@@ -11,12 +11,13 @@
                 </li>
             </ul>
         </nav>
-        <component :is="userStore.user ? UserHeader : NoUserHeader" />
+        <UserHeader v-if="userStore.user" />
+        <NoUserHeader v-else />
     </header>
 </template>
 
 <script setup lang="ts">
-import { onBeforeMount, onMounted, ref } from 'vue';
+import { onMounted } from 'vue';
 import { getUser } from '../services/session';
 import supabase from '../services/supabase';
 import { useUserStore } from '../store/user.store';
@@ -25,31 +26,6 @@ import NoUserHeader from './NoUserHeader.vue';
 import UserHeader from './UserHeader.vue';
 
 const userStore = useUserStore()
-
-const session = supabase.auth.session()
-supabase.auth.onAuthStateChange(async (event, session) => {
-    console.log('aaaa')
-    if (event === 'SIGNED_IN' && session != null) {
-        const user = await getUser(session)
-        userStore.$patch({
-            user: user
-        })
-    }
-
-    if (event === 'SIGNED_OUT') {
-        userStore.$state = {
-            user: null,
-        }
-    }
-})
-
-onMounted(async () => {
-    if (session != null) {
-        const user = await getUser(session)
-        userStore.user = user
-    }
-})
-
 
 </script>
 

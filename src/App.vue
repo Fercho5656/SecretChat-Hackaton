@@ -1,5 +1,35 @@
 <script setup lang="ts">
+import { onMounted } from 'vue';
 import TheHeader from './components/TheHeader.vue'
+import { getUser } from './services/session';
+import supabase from './services/supabase';
+import { useUserStore } from './store/user.store';
+
+const userStore = useUserStore()
+
+const session = supabase.auth.session()
+onMounted(async () => {
+  if (session != null) {
+    const user = await getUser(session)
+    userStore.user = user
+  }
+})
+
+supabase.auth.onAuthStateChange(async (event, session) => {
+  if (event === 'SIGNED_IN' && session != null) {
+    const user = await getUser(session)
+    userStore.$patch({
+      user: user
+    })
+  }
+
+  if (event === 'SIGNED_OUT') {
+    userStore.$state = {
+      user: null,
+    }
+  }
+})
+
 </script>
 
 <template>
