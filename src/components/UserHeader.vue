@@ -1,6 +1,6 @@
 <template>
     <div>
-        <picture @click="showDropdown = true" ref="pictureRef">
+        <picture @click="showDropdown = !showDropdown" ref="pictureRef">
             <source srcset="../assets/logo.png">
             <img :src="user.user?.avatar" :alt="user.user?.name">
             <DropdownProfile v-if="showDropdown" :user="user.user!" />
