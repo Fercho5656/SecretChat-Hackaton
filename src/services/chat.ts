@@ -1,4 +1,4 @@
-import { Client } from '@twilio/conversations'
+import { Client, Conversation, Paginator } from '@twilio/conversations'
 
 export const createOrJoinRoom = async (room: string, accessToken: string) => {
   const client = new Client(accessToken)
@@ -22,6 +22,58 @@ export const createOrJoinRoom = async (room: string, accessToken: string) => {
         }
         console.log(conversation)
         resolve(conversation)
+      }
+    })
+  })
+}
+
+export const createConversation = async (conversationName: string, accessToken: string) => {
+  const client = new Client(accessToken)
+
+  return new Promise((resolve, reject) => {
+    client.on('stateChanged', async state => {
+      if (state === 'initialized') {
+        try {
+          const conversation = await client.createConversation({ uniqueName: conversationName })
+          conversation.join()
+          resolve(conversation)
+        } catch (error) {
+          reject({ error, message: 'Error creating conversation, maybe conversation already exists?' })
+        }
+      }
+    })
+  })
+}
+
+export const joinConversation = async (conversationSID: string, accessToken: string) => {
+  const client = new Client(accessToken)
+
+  return new Promise((resolve, reject) => {
+    client.on('stateChanged', async state => {
+      if (state === 'initialized') {
+        try {
+          const conversation = await client.getConversationBySid(conversationSID)
+          resolve(conversation)
+        } catch (error) {
+          reject({ error, message: 'Error joining conversation, maybe you are not in the conversation?' })
+        }
+      }
+    })
+  })
+}
+
+export const getJoinedConversations = async (accessToken: string): Promise<Paginator<Conversation>> => {
+  const client = new Client(accessToken)
+
+  return new Promise((resolve, reject) => {
+    client.on('stateChanged', async state => {
+      if (state === 'initialized') {
+        try {
+          const conversations = await client.getSubscribedConversations()
+          resolve(conversations)
+        } catch (error) {
+          reject({ error, message: 'Error getting conversations' })
+        }
       }
     })
   })
