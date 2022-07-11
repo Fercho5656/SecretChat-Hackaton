@@ -72,5 +72,7 @@ main {
   max-width: 72rem;
   margin: auto;
   position: relative;
+  width: 100vw;
+  height: 100vh;
 }
 </style>
