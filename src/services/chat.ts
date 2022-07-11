@@ -27,7 +27,7 @@ export const createOrJoinRoom = async (room: string, accessToken: string) => {
   })
 }
 
-export const createConversation = async (conversationName: string, accessToken: string) => {
+export const createConversation = async (conversationName: string, accessToken: string): Promise<Conversation> => {
   const client = new Client(accessToken)
 
   return new Promise((resolve, reject) => {
