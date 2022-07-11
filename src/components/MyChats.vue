@@ -30,6 +30,7 @@ const conversations = ref<IConversationDetails[]>([])
 const accessToken = ref<string>('')
 
 onMounted(async () => {
+  roomStore.room = null;
   accessToken.value = await getAccessToken(userStore.user?.token!);
   const joinedConversations = await getJoinedConversations(accessToken.value);
   console.log(joinedConversations)
