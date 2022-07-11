@@ -1,9 +1,9 @@
 <template>
+  <CreateChat />
   <div class="conversations" v-if="conversations.length > 0">
     <div class="conversation" v-for="conversation in conversations" :key="conversation.SID"
       @click="onJoinConversation(conversation.SID)">
-      <strong>{{ conversation.uniqueName }}</strong>
-      <p>Created by: {{ conversation.createdBy }}</p>
+      <ChatCard :conversation-details="conversation" />
     </div>
   </div>
   <div v-else>
@@ -14,12 +14,14 @@
 <script setup lang="ts">
 import { getAccessToken } from '../services/auth';
 import { getJoinedConversations, joinConversation } from '../services/chat';
-import { onMounted, ref, watch } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useUserStore } from '../store/user.store';
-import IConversationDetails from '../interfaces/IConversationDetails'
 import { Conversation } from '@twilio/conversations';
 import { useRouter } from 'vue-router';
 import { useRoomStore } from '../store/room.store';
+import IConversationDetails from '../interfaces/IConversationDetails'
+import ChatCard from './ChatCard.vue';
+import CreateChat from './CreateChat.vue';
 
 const router = useRouter();
 const roomStore = useRoomStore()
@@ -51,4 +53,10 @@ const onJoinConversation = async (conversationSID: string) => {
 </script>
 
 <style scoped>
+.conversations {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-gap: 1rem;
+  margin-top: 1rem;
+}
 </style>
