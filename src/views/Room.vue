@@ -1,5 +1,7 @@
 <template>
-  <h2>{{ roomStore.room.uniqueName }}</h2>
+  <header>
+    <h2>{{ roomStore.room.uniqueName }}</h2>
+  </header>
   <Conversation />
   <ConversationInput />
 </template>
@@ -23,4 +25,12 @@ onBeforeMount(() => {
 </script>
 
 <style scoped>
+header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1rem;
+  background-color: var(--secondary-color);
+  width: 100%;
+}
 </style>
