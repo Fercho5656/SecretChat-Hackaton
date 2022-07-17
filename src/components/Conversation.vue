@@ -37,8 +37,7 @@ onMounted(() => {
 .messages {
   display: flex;
   flex-flow: column nowrap;
-  margin-bottom: 0.5rem;
   align-items: stretch;
-  padding: 1rem;
+  width: 75vw;
 }
 </style>
