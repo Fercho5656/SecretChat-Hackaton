@@ -16,11 +16,15 @@ const handleSendMessage = (e: KeyboardEvent) => {
     message.value = ''
   }
 }
+
 </script>
 
 <style scoped>
 input {
+  position: fixed;
+  bottom: 0;
   width: 100%;
+  height: 2vh;
   padding: 0.5rem;
   border: 2px solid var(--primary-color-mid);
 }
