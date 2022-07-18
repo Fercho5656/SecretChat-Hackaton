@@ -1,13 +1,15 @@
 <template>
-  <CreateChat />
-  <div class="conversations" v-if="conversations.length > 0">
-    <div class="conversation" v-for="conversation in conversations" :key="conversation.SID"
-      @click="onJoinConversation(conversation.SID)">
-      <ChatCard :conversation-details="conversation" />
+  <div class="my-chats">
+    <CreateChat />
+    <div class="conversations" v-if="conversations.length > 0">
+      <div class="conversation" v-for="conversation in conversations" :key="conversation.SID"
+        @click="onJoinConversation(conversation.SID)">
+        <ChatCard :conversation-details="conversation" />
+      </div>
     </div>
-  </div>
-  <div v-else>
-    <p>No conversations found</p>
+    <div v-else>
+      <p>No conversations found</p>
+    </div>
   </div>
 </template>
 
@@ -44,16 +46,21 @@ onMounted(async () => {
 })
 
 const onJoinConversation = async (conversationSID: string) => {
+  roomStore.room = null
   const conversation = await joinConversation(conversationSID, accessToken.value);
   if (conversation) {
     roomStore.room = conversation;
-    router.push(`/chat/${conversationSID}`);
+    /* router.push(`/chat/${conversationSID}`); */
   }
 }
 
 </script>
 
 <style scoped>
+.my-chats {
+  width: 25%;
+}
+
 .conversations {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
