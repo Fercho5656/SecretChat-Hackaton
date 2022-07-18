@@ -37,6 +37,7 @@ supabase.auth.onAuthStateChange(async (event, session) => {
   <main>
     <router-view />
   </main>
+  <div id="modal" />
 </template>
 
 <style>
