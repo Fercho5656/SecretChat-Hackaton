@@ -38,8 +38,7 @@ header {
   justify-content: space-around;
   margin-bottom: 1rem;
   background-color: var(--secondary-color);
-  width: 100vw;
-  height: 20vh;
+  width: 100%;
   z-index: 10;
   box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
 }
