@@ -38,6 +38,8 @@ onMounted(() => {
   display: flex;
   flex-flow: column nowrap;
   align-items: stretch;
-  width: 75vw;
+  padding: 0 1rem;
+  padding-bottom: 3rem;
+  overflow-y: scroll;
 }
 </style>
